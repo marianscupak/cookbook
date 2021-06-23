@@ -10,6 +10,7 @@ import Header from "./components/layout/Header";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Profile from "./components/Profile";
 
 const App = () => {
   const auth = useAppSelector((state: RootState) => state.auth);
@@ -49,6 +50,9 @@ const App = () => {
         </Route>
         <Route path="/recipes">
           <Home />
+        </Route>
+        <Route path="/profile">
+          <Profile />
         </Route>
         <Route path="/login">
           <Login />
