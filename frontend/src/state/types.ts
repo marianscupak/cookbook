@@ -5,7 +5,7 @@ export enum AUTH {
   LOGIN_VERIFY,
   LOGIN,
   LOGOUT
-}
+};
 
 export type AuthState = {
   data: {
@@ -17,3 +17,10 @@ export type AuthState = {
   },
   status: string
 };
+
+export type Recipe = {
+  name: string,
+  description: string,
+  ingredients: string[],
+  steps: string[]
+}

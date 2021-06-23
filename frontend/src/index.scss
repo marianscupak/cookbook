@@ -109,4 +109,16 @@ header {
   button:hover {
     background-color: $darkBlue;
   }
+  ul {
+    list-style-type: none;
+    li {
+      font-size: 2rem;
+    }
+  }
+  .profile-recipes {
+    display: flex;
+    li {
+      margin: 30px;
+    }
+  }
 }

@@ -26,7 +26,8 @@ export const login = (username: string, password: string) => {
             user: {
               username,
               email: "email"
-            }
+            },
+            token: json.token
           }
         });
       }
