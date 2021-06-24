@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Recipe } from "../state/types";
+import { Recipe } from "../../state/types";
 
 const RecipeMini = (recipe: any) => {
   return (

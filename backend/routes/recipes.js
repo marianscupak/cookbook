@@ -36,6 +36,8 @@ router.route('/add').post((req, res) => {
     const { body } = req;
     const { token, recipe } = body;
 
+    console.log(body);
+
     if (token) {
       fetch("http://localhost:5000/api/verify?token=" + token)
         .then((res) => res.json())

@@ -32,6 +32,38 @@ a {
   @include link($blue, $darkBlue);
 }
 
+.flex-row {
+  display: flex;
+}
+
+.addButton {
+  margin: auto 0 auto 10px;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  background-color: #f2f2f2;
+  padding: 30px;
+}
+
+textarea {
+  margin-bottom: 20px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.center {
+  margin: auto;
+}
+
+.mr-5 {
+  margin-right: 5px;
+}
+
 header {
   padding: 5px;
   display: flex;
@@ -82,7 +114,8 @@ header {
   }
   label,
   input,
-  button {
+  button,
+  textarea {
     font-size: 2rem;
   }
   input {

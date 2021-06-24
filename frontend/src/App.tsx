@@ -11,6 +11,7 @@ import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
+import RecipeAdd from "./components/recipes/RecipeAdd";
 
 const App = () => {
   const auth = useAppSelector((state: RootState) => state.auth);
@@ -48,7 +49,7 @@ const App = () => {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/recipes">
+        <Route exact path="/recipes">
           <Home />
         </Route>
         <Route path="/profile">
@@ -59,6 +60,9 @@ const App = () => {
         </Route>
         <Route path="/register">
           <Register />
+        </Route>
+        <Route path="/recipes/add">
+          <RecipeAdd />
         </Route>
       </Switch>
     </div>

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useAppSelector } from "../state/hooks";
 import { Recipe } from "../state/types";
-import RecipeMini from "./RecipeMini";
+import RecipeMini from "./recipes/RecipeMini";
+import AddIcon from "../../public/add.svg";
 
 const Profile = () => {
   const auth = useAppSelector((state) => state.auth);
@@ -37,7 +38,12 @@ const Profile = () => {
       <ul>
         <li>E-Mail: {auth.data.user.email}</li>
       </ul>
-      <h1>Your recipes</h1>
+      <div className="flex-row">
+        <h1>Your recipes</h1>
+        <Link to="/recipes/add" className="addButton">
+          <img src={AddIcon.toString()} alt="Add recipe" height="20px" />
+        </Link>
+      </div>
       <ul className="profile-recipes">
         {recipes.length ? (
           recipes.map((val, index) => {
