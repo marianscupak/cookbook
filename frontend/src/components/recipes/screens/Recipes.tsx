@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import RecipeMini from "./RecipeMini";
+import RecipeMini from "../RecipeMini";
 
-const Recipes = () => {
+export const Recipes = () => {
   const [recipes, setRecipes] = useState([]);
   useEffect(() => {
     fetch("http://localhost:5000/api/recipes")
@@ -32,5 +32,3 @@ const Recipes = () => {
     </div>
   );
 };
-
-export default Recipes;
