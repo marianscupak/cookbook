@@ -10,6 +10,9 @@ import Header from "./components/layout/Header";
 import Home from "./components/Home";
 import Login from "./components/Login";
 import Register from "./components/Register";
+import Profile from "./components/Profile";
+import RecipeAdd from "./components/recipes/RecipeAdd";
+import Recipes from "./components/recipes/Recipes";
 
 const App = () => {
   const auth = useAppSelector((state: RootState) => state.auth);
@@ -47,14 +50,20 @@ const App = () => {
         <Route exact path="/">
           <Home />
         </Route>
-        <Route path="/recipes">
-          <Home />
+        <Route exact path="/recipes">
+          <Recipes />
+        </Route>
+        <Route path="/profile">
+          <Profile />
         </Route>
         <Route path="/login">
           <Login />
         </Route>
         <Route path="/register">
           <Register />
+        </Route>
+        <Route path="/recipes/add">
+          <RecipeAdd />
         </Route>
       </Switch>
     </div>

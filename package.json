@@ -12,5 +12,7 @@
   "devDependencies": {
     "concurrently": "^6.2.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "node-fetch": "^2.6.1"
+  }
 }

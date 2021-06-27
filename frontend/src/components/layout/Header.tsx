@@ -15,7 +15,11 @@ const Header = () => {
   const handleLogout = (e: MouseEvent<HTMLAnchorElement>) => {
     e.stopPropagation();
 
-    logout();
+    fetch("http://localhost:5000/api/logout?token=" + auth.data.token).then(
+      () => {
+        logout();
+      }
+    );
   };
 
   return (

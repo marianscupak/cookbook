@@ -188,7 +188,8 @@ router.route('/verify').get((req, res) => {
             success: true,
             user: {
               username: users[0].username,
-              email: users[0].email
+              email: users[0].email,
+              id: users[0]._id
             },
             message: "Verified."
           });

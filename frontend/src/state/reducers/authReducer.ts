@@ -40,7 +40,7 @@ const authReducer: Reducer<AuthState, AnyAction> = (state = initialState, action
             username: action.payload.data.user.username,
             email: action.payload.data.user.email
           },
-          token: action.payload.token
+          token: action.payload.data.token
         },
         status: "loggedin"
       }
