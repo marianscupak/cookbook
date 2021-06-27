@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
-import { useAppSelector } from "../state/hooks";
-import RecipeMini from "./recipes/RecipeMini";
-import AddIcon from "../../public/add.svg";
+import { Link, Redirect, useHistory } from "react-router-dom";
 
-const Profile = () => {
+import { useAppSelector } from "../../../state/hooks";
+import RecipeMini from "../../recipes/RecipeMini";
+import AddIcon from "../../../../public/add.svg";
+
+export const Profile = () => {
   const auth = useAppSelector((state) => state.auth);
 
   const [recipes, setRecipes] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const history = useHistory();
+
   if (auth.data.token === "") {
-    return <Redirect to="/" />;
+    history.push("/");
   }
 
   useEffect(() => {
@@ -74,5 +77,3 @@ const Profile = () => {
     </div>
   );
 };
-
-export default Profile;

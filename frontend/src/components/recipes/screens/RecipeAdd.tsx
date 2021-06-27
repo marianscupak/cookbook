@@ -1,7 +1,7 @@
 import React from "react";
-import RecipeAddForm from "./RecipeAddForm";
+import RecipeAddForm from "../RecipeAddForm";
 
-const RecipeAdd = () => {
+export const RecipeAdd = () => {
   return (
     <div className="container">
       <h1>Add a recipe</h1>
@@ -9,5 +9,3 @@ const RecipeAdd = () => {
     </div>
   );
 };
-
-export default RecipeAdd;

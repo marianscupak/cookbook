@@ -1,12 +1,13 @@
 import React, { useState, ChangeEvent, MouseEvent } from "react";
 import { bindActionCreators } from "redux";
-import { RootState } from "../state/store";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../state/hooks";
-import * as actionCreators from "../state/action-creators";
 
-const Login = () => {
+import { RootState } from "../../../state/store";
+import { useAppSelector, useAppDispatch } from "../../../state/hooks";
+import * as actionCreators from "../../../state/action-creators";
+
+export const Register = () => {
   const token = useAppSelector((state: RootState) => state.auth.data.token);
 
   const [userLogin, changeUser] = useState({
@@ -37,7 +38,6 @@ const Login = () => {
     const { username, password, password2, email } = userLogin;
 
     if (password === password2) {
-      console.log("odesilam");
       fetch("http://localhost:5000/api/signup", {
         method: "POST",
         headers: {
@@ -117,5 +117,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;

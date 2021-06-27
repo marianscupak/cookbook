@@ -1,12 +1,12 @@
 import React, { useState, ChangeEvent, MouseEvent } from "react";
 import { bindActionCreators } from "redux";
-import { RootState } from "../state/store";
+import { RootState } from "../../../state/store";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../state/hooks";
-import * as actionCreators from "../state/action-creators";
+import { useAppSelector, useAppDispatch } from "../../../state/hooks";
+import * as actionCreators from "../../../state/action-creators";
 
-const Login = () => {
+export const Login = () => {
   const token = useAppSelector((state: RootState) => state.auth.data.token);
 
   const [userLogin, changeUser] = useState({ username: "", password: "" });
@@ -65,5 +65,3 @@ const Login = () => {
     </div>
   );
 };
-
-export default Login;
