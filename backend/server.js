@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const multer = require('multer');
 const mongoose = require('mongoose');
@@ -10,9 +11,12 @@ const port = process.env.PORT || 5000;
 
 const upload = multer({dest: 'upload/'});
 
+const dir = path.join(__dirname, 'public');
+
 app.use(cors());
 app.use(express.json());
 app.use(upload.array('files'));
+app.use(express.static('public'));
 
 const uri = process.env.ATLAS_URI;
 mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true });

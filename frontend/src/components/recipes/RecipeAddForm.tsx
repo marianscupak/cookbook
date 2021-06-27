@@ -3,6 +3,7 @@ import axios from "axios";
 import { useAppSelector } from "../../state/hooks";
 import AddIcon from "../../../public/add.svg";
 import MinusIcon from "../../../public/minus.svg";
+import { useHistory } from "react-router-dom";
 
 const RecipeAddForm = () => {
   const [recipe, setRecipe] = useState({
@@ -14,12 +15,13 @@ const RecipeAddForm = () => {
   const [ingredientCount, setIngredientCount] = useState(1);
   const [stepCount, setStepCount] = useState(1);
   const [files, setFiles] = useState("");
+  const history = useHistory();
 
   const token = useAppSelector((state) => state.auth.data.token);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // @ts-ignore
+
     const data = new FormData();
 
     for (let i = 0; i < files.length; i++) {
@@ -30,7 +32,11 @@ const RecipeAddForm = () => {
     data.append("recipe", JSON.stringify(recipe));
     data.append("token", token);
 
-    axios.post("http://localhost:5000/api/recipes/add", data);
+    axios.post("http://localhost:5000/api/recipes/add", data).then((res) => {
+      if (res.data.success) {
+        history.push("/profile");
+      }
+    });
   };
 
   const handleChange = (

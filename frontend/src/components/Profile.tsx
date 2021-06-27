@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import { useAppSelector } from "../state/hooks";
-import { Recipe } from "../state/types";
 import RecipeMini from "./recipes/RecipeMini";
 import AddIcon from "../../public/add.svg";
 
@@ -9,12 +8,14 @@ const Profile = () => {
   const auth = useAppSelector((state) => state.auth);
 
   const [recipes, setRecipes] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   if (auth.data.token === "") {
     return <Redirect to="/" />;
   }
 
   useEffect(() => {
+    setLoading(true);
     fetch("http://localhost:5000/api/recipes", {
       method: "POST",
       headers: {
@@ -27,8 +28,17 @@ const Profile = () => {
       .then((res) => res.json())
       .then((json) => {
         if (json.success) {
+          json.recipes.forEach((recipe: string, index: number) => {
+            json.recipes[index].images = json.images[index];
+          });
+
           setRecipes(json.recipes);
+          setLoading(false);
         }
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
       });
   }, []);
 
@@ -45,7 +55,9 @@ const Profile = () => {
         </Link>
       </div>
       <ul className="profile-recipes">
-        {recipes.length ? (
+        {loading ? (
+          <h1>"Loading..."</h1>
+        ) : recipes.length ? (
           recipes.map((val, index) => {
             return (
               <li key={index}>

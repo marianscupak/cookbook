@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const fetch = require('node-fetch');
 const Recipe = require('../models/Recipe');
+const fs = require('fs');
 
 router.route('/').post((req, res) => {
   const { body } = req;
@@ -22,9 +23,18 @@ router.route('/').post((req, res) => {
                   message: "Error: Server error."
               });
             }
+            const images = []
+            for (index in recipes) {
+              images.push([]);
+              const recipe = recipes[index];
+              fs.readdirSync(`public/${recipe.id}`).forEach(file => {
+                images[index].push(file);
+              });
+            }
             return res.send({
               success: true,
-              recipes
+              recipes,
+              images
             });
           })
         }
@@ -33,56 +43,63 @@ router.route('/').post((req, res) => {
 });
 
 router.route('/add').post((req, res) => {
-    // const { body } = req;
-    // const { token, recipe } = body;
+    const { body } = req;
+    const { token } = body;
+    const recipe = JSON.parse(body.recipe);
 
-    console.log(req.body);
-    console.log(req.files);
+    if (token) {
+      fetch("http://localhost:5000/api/verify?token=" + token)
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.success) {
+            let newRecipe = new Recipe();
 
-    res.send("finally");
+            newRecipe.name = recipe.name;
+            newRecipe.description = recipe.description;
+            newRecipe.ingredients = recipe.ingredients;
+            newRecipe.steps = recipe.steps;
+            newRecipe.userId = json.user.id;
 
-    // if (token) {
-    //   fetch("http://localhost:5000/api/verify?token=" + token)
-    //     .then((res) => res.json())
-    //     .then((json) => {
-    //       if (json.success) {
-    //         let newRecipe = new Recipe();
+            newRecipe.save((err, doc) => {
+              if (err) {
+                return res.send({
+                  success: false,
+                  message: "Error: Server error."
+                });
+              }
 
-    //         newRecipe.name = recipe.name;
-    //         newRecipe.description = recipe.description;
-    //         newRecipe.ingredients = recipe.ingredients;
-    //         newRecipe.steps = recipe.steps;
-    //         newRecipe.userId = json.user.id;
+              fs.mkdir(`public/${doc.id}`, (e) => {
+                if (e) throw e;
+              });
 
-    //         newRecipe.save((err, doc) => {
-    //           if (err) {
-    //             return res.send({
-    //               success: false,
-    //               message: "Error: Server error."
-    //             });
-    //           }
-    //           return res.send({
-    //             success: true,
-    //             recipe: doc
-    //           });
-    //         });
-    //       } else {
-    //         return res.send({
-    //           success: false,
-    //           message: "Error: Not authenticated."
-    //         });
-    //       }
-    //     })
-    //     .catch(e => {
-    //       console.log(e);
-    //     })
-    // }
-    // else {
-    //   return res.send({
-    //     success: false,
-    //     message: "Error: Not authenticated."
-    //   });
-    // }
+              for (const file in req.files) {
+                const newPath = `public/${doc.id}/image${file}.${req.files[file].originalname.substr(-3, 3)}`;
+
+                fs.rename(req.files[file].path, newPath, (e) => {
+                  if (e) throw e;
+                })
+              }
+              return res.send({
+                success: true,
+              });
+            });
+          } else {
+            return res.send({
+              success: false,
+              message: "Error: Not authenticated."
+            });
+          }
+        })
+        .catch(e => {
+          console.log(e);
+        })
+    }
+    else {
+      return res.send({
+        success: false,
+        message: "Error: Not authenticated."
+      });
+    }
 });
 
 module.exports = router;
