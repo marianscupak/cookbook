@@ -1,5 +1,4 @@
 import React, { ChangeEvent, FormEvent, useState } from "react";
-import axios from "axios";
 import { useAppSelector } from "../../state/hooks";
 import AddIcon from "../../../public/add.svg";
 import MinusIcon from "../../../public/minus.svg";
@@ -32,11 +31,16 @@ const RecipeAddForm = () => {
     data.append("recipe", JSON.stringify(recipe));
     data.append("token", token);
 
-    axios.post("http://localhost:5000/api/recipes/add", data).then((res) => {
-      if (res.data.success) {
-        history.push("/profile");
-      }
-    });
+    fetch("http://localhost:5000/api/recipes/add", {
+      method: "POST",
+      body: data,
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.success) {
+          history.push("/profile");
+        }
+      });
   };
 
   const handleChange = (
@@ -81,6 +85,7 @@ const RecipeAddForm = () => {
           id="name"
           onChange={handleChange}
           value={recipe.name}
+          required
         />
         <label htmlFor="description">Description</label>
         <textarea
@@ -88,6 +93,7 @@ const RecipeAddForm = () => {
           id="description"
           onChange={handleChange}
           value={recipe.description}
+          required
         ></textarea>
         <label htmlFor="ingredients[]">Ingredients</label>
         {[...Array(ingredientCount)].map((i, ind) => (
@@ -97,6 +103,7 @@ const RecipeAddForm = () => {
             key={ind}
             onChange={handleChange}
             value={recipe.ingredients[ind]}
+            required
           />
         ))}
         <div className="center">
@@ -140,6 +147,7 @@ const RecipeAddForm = () => {
             key={ind}
             onChange={handleChange}
             value={recipe.steps[ind]}
+            required
           ></textarea>
         ))}
         <div className="center">
@@ -183,6 +191,7 @@ const RecipeAddForm = () => {
           id="fileInput"
           onChange={handleFileChange}
           multiple
+          required
         />
         <button>Submit</button>
       </form>

@@ -40,7 +40,39 @@ router.route('/').post((req, res) => {
         }
       })
     }
+    else {
+      return res.send({
+        success: false,
+        message: "Error: Not authenticated."
+      });
+    }
 });
+
+router.route('/').get((req, res) => {
+  Recipe.find({})
+  .then((recipes, err) => {
+    if (err) {
+      console.log(err);
+      return res.send({
+        success: false,
+        message: "Error: Server error."
+      });
+    }
+    const images = [];
+    for (index in recipes) {
+      images.push([]);
+      const recipe = recipes[index];
+      fs.readdirSync(`public/${recipe.id}`).forEach(file => {
+        images[index].push(file);
+      });
+    }
+    return res.send({
+      success: true,
+      recipes,
+      images
+    });
+  })
+})
 
 router.route('/add').post((req, res) => {
     const { body } = req;

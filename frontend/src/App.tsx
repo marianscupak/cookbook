@@ -12,6 +12,7 @@ import Login from "./components/Login";
 import Register from "./components/Register";
 import Profile from "./components/Profile";
 import RecipeAdd from "./components/recipes/RecipeAdd";
+import Recipes from "./components/recipes/Recipes";
 
 const App = () => {
   const auth = useAppSelector((state: RootState) => state.auth);
@@ -50,7 +51,7 @@ const App = () => {
           <Home />
         </Route>
         <Route exact path="/recipes">
-          <Home />
+          <Recipes />
         </Route>
         <Route path="/profile">
           <Profile />

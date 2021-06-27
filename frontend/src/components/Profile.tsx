@@ -61,7 +61,7 @@ const Profile = () => {
           recipes.map((val, index) => {
             return (
               <li key={index}>
-                <RecipeMini props={val} key={index} />
+                <RecipeMini recipe={val} key={index} />
               </li>
             );
           })

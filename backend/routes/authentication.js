@@ -201,8 +201,6 @@ router.route('/logout').get((req, res) => {
     const { query } = req;
     const { token } = query;
 
-    console.log(query);
-
     UserSession.findOne({
         _id: token,
         isDeleted: false
