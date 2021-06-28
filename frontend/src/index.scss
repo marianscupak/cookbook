@@ -2,6 +2,7 @@
 @import "globals";
 @import "components/recipes/recipes";
 @import "components/layout/header";
+@import "components/layout/footer";
 
 h1 {
   font-size: 3rem;
@@ -48,6 +49,14 @@ textarea {
   margin-right: 5px;
 }
 
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style-type: none;
+}
+
 .container {
   width: 80%;
   margin: auto;
@@ -92,7 +101,6 @@ textarea {
     background-color: $darkBlue;
   }
   ul {
-    list-style-type: none;
     li {
       font-size: 2rem;
     }
