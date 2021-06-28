@@ -8,6 +8,7 @@ import { Routes } from "./components/routes";
 import { RootState } from "./state/store";
 import * as actionCreators from "./state/action-creators";
 import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
 
 const App = () => {
   const auth = useAppSelector((state: RootState) => state.auth);
@@ -42,6 +43,7 @@ const App = () => {
     <div>
       <Header />
       <Routes />
+      <Footer />
     </div>
   );
 };

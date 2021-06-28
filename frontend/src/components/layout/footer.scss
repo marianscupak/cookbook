@@ -1,0 +1,12 @@
+footer {
+  display: flex;
+  justify-content: space-between;
+  width: 60%;
+  border-top: 1px solid lightgrey;
+  margin: auto;
+  padding: 30px;
+  margin-top: 40px;
+  * {
+    font-size: 1.7rem;
+  }
+}

@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const fetch = require('node-fetch');
 const Recipe = require('../models/Recipe');
+const User = require('../models/User');
 const fs = require('fs');
 
 router.route('/').post((req, res) => {
@@ -49,8 +50,7 @@ router.route('/').post((req, res) => {
 });
 
 router.route('/').get((req, res) => {
-  Recipe.find({})
-  .then((recipes, err) => {
+  Recipe.find({}, (err, recipes) => {
     if (err) {
       console.log(err);
       return res.send({
@@ -133,5 +133,37 @@ router.route('/add').post((req, res) => {
       });
     }
 });
+
+router.route('/:id').get((req, res) => {
+  const { id } = req.params;
+
+  Recipe.findById(id, (err, recipe) => {
+    if (err) {
+      return res.send({
+        success: false,
+        message: "Error: Server error."
+      });
+    }
+    const images = [];
+    fs.readdirSync(`public/${recipe.id}`).forEach(file => {
+      images.push(file);
+    });
+    User.findById(recipe.userId, (err, user) => {
+      if (err) {
+        return res.send({
+          success: false,
+          message: "Error: Server error."
+        });
+      }
+      return res.send({
+        success: true,
+        recipe: recipe,
+        images,
+        author: user.username
+      });
+    })
+    
+  })
+})
 
 module.exports = router;

@@ -24,5 +24,15 @@ export type Recipe = {
   ingredients: string[],
   steps: string[],
   images: string[],
-  _id: string
+  _id: string,
+  author?: string
+}
+
+export const defaultRecipe = {
+  name: "",
+  description: "",
+  ingredients: [""],
+  steps: [""],
+  images: [""],
+  _id: ""
 }

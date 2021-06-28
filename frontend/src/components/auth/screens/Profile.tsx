@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { useAppSelector } from "../../../state/hooks";
 import RecipeMini from "../../recipes/RecipeMini";

@@ -1,4 +1,5 @@
-import React, { MouseEvent, useRef, useState } from "react";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
+import { Link } from "react-router-dom";
 import { Recipe } from "../../state/types";
 
 const RecipeMini = ({ recipe }: { recipe: Recipe }) => {
@@ -19,6 +20,12 @@ const RecipeMini = ({ recipe }: { recipe: Recipe }) => {
     clearInterval(interval.current);
   };
 
+  useEffect(() => {
+    return () => {
+      clearInterval(interval.current);
+    };
+  }, []);
+
   return (
     <div
       className="recipe-miniature"
@@ -31,7 +38,9 @@ const RecipeMini = ({ recipe }: { recipe: Recipe }) => {
       />
       <div className="shadow"></div>
       {isHovered ? <p>{recipe.description}</p> : ""}
-      <button className="detail">Detail</button>
+      <Link to={`/recipe/${recipe._id}`}>
+        <button className="detail">Detail</button>
+      </Link>
     </div>
   );
 };
