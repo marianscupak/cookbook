@@ -3,6 +3,7 @@ import { bindActionCreators } from "redux";
 import { RootState } from "../../../state/store";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+import { useAlert } from "react-alert";
 import { useAppSelector, useAppDispatch } from "../../../state/hooks";
 import * as actionCreators from "../../../state/action-creators";
 
@@ -14,6 +15,8 @@ export const Login = () => {
   const dispatch = useAppDispatch();
 
   const { login } = bindActionCreators(actionCreators, dispatch);
+
+  const alert = useAlert();
 
   if (token !== "") {
     return <Redirect to="/" />;
@@ -28,7 +31,13 @@ export const Login = () => {
 
   const processForm = (e: MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    login(userLogin.username, userLogin.password);
+    login(userLogin.username, userLogin.password, (success, message) => {
+      if (success) {
+        alert.success("Logged in!");
+      } else {
+        alert.error(message);
+      }
+    });
   };
 
   return (

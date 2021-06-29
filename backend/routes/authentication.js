@@ -155,7 +155,8 @@ router.route('/login').post((req, res) => {
             return res.send({
                 success: true,
                 message: "Login successful.",
-                token: doc._id
+                token: doc._id,
+                userEmail: user.email
             });
         });
     });

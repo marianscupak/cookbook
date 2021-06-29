@@ -1,7 +1,7 @@
 import { AppDispatch } from "../store"
 import { AUTH } from "../types";
 
-export const login = (username: string, password: string) => {
+export const login = (username: string, password: string, callback: (success: boolean, message?: string) => void) => {
   return (dispatch: AppDispatch) => {
     dispatch({
       type: AUTH.LOGIN_REQUESTED
@@ -20,18 +20,20 @@ export const login = (username: string, password: string) => {
     .then(json => {
       if (json.success) {
         localStorage.setItem('token', json.token);
+        callback(true);
         dispatch({
           type: AUTH.LOGIN_SUCCESS,
           payload: {
             user: {
               username,
-              email: "email"
+              email: json.userEmail
             },
             token: json.token
           }
         });
       }
       else {
+        callback(false, json.message);
         dispatch({
           type: AUTH.LOGIN_FAILED,
         });
