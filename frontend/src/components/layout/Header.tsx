@@ -1,5 +1,6 @@
 import React, { MouseEvent } from "react";
 import { Link } from "react-router-dom";
+import { useAlert } from "react-alert";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { RootState } from "../../state/store";
 import Logo from "../../../public/logo.svg";
@@ -12,12 +13,15 @@ const Header = () => {
 
   const { logout } = bindActionCreators(actionCreators, dispatch);
 
+  const alert = useAlert();
+
   const handleLogout = (e: MouseEvent<HTMLAnchorElement>) => {
     e.stopPropagation();
 
     fetch("http://localhost:5000/api/logout?token=" + auth.data.token).then(
       () => {
         logout();
+        alert.success("Logged out!");
       }
     );
   };

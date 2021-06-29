@@ -2,6 +2,7 @@ import React, { useState, ChangeEvent, MouseEvent } from "react";
 import { bindActionCreators } from "redux";
 import { Link } from "react-router-dom";
 import { Redirect } from "react-router-dom";
+import { useAlert } from "react-alert";
 
 import { RootState } from "../../../state/store";
 import { useAppSelector, useAppDispatch } from "../../../state/hooks";
@@ -20,6 +21,8 @@ export const Register = () => {
   const dispatch = useAppDispatch();
 
   const { verify } = bindActionCreators(actionCreators, dispatch);
+
+  const alert = useAlert();
 
   if (token !== "") {
     return <Redirect to="/" />;
@@ -52,6 +55,7 @@ export const Register = () => {
         .then((res) => res.json())
         .then((json) => {
           if (json.success) {
+            alert.success("Successfully registered!");
             localStorage.setItem("token", json.token);
             verify({
               user: {
@@ -60,8 +64,12 @@ export const Register = () => {
               },
               token: json.token,
             });
+          } else {
+            alert.error(json.message);
           }
         });
+    } else {
+      alert.error("Passwords do not match!");
     }
   };
 

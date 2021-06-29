@@ -3,6 +3,7 @@ import { useAppSelector } from "../../state/hooks";
 import AddIcon from "../../../public/add.svg";
 import MinusIcon from "../../../public/minus.svg";
 import { useHistory } from "react-router-dom";
+import { useAlert } from "react-alert";
 
 const RecipeAddForm = () => {
   const [recipe, setRecipe] = useState({
@@ -17,6 +18,8 @@ const RecipeAddForm = () => {
   const history = useHistory();
 
   const token = useAppSelector((state) => state.auth.data.token);
+
+  const alert = useAlert();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -38,7 +41,10 @@ const RecipeAddForm = () => {
       .then((res) => res.json())
       .then((json) => {
         if (json.success) {
+          alert.success("Recipe successfully added!");
           history.push("/profile");
+        } else {
+          alert.error(json.message);
         }
       });
   };
