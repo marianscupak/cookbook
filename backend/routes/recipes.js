@@ -159,7 +159,7 @@ router.route('/:id').get((req, res) => {
         success: true,
         recipe: recipe,
         images,
-        author: user.username
+        author: user ? user.username : "Anonymous"
       });
     })
     

@@ -1,17 +1,21 @@
 import React, { MouseEvent } from "react";
 import { Link } from "react-router-dom";
 import { useAlert } from "react-alert";
+import { bindActionCreators } from "redux";
+import { useHistory } from "react-router";
+
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { RootState } from "../../state/store";
 import Logo from "../../../public/logo.svg";
 import * as actionCreators from "../../state/action-creators";
-import { bindActionCreators } from "redux";
 
 const Header = () => {
   const auth = useAppSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
 
   const { logout } = bindActionCreators(actionCreators, dispatch);
+
+  const history = useHistory();
 
   const alert = useAlert();
 
@@ -22,6 +26,7 @@ const Header = () => {
       () => {
         logout();
         alert.success("Logged out!");
+        history.push("/");
       }
     );
   };
