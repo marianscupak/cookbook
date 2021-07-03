@@ -78,10 +78,12 @@ ul {
   label,
   input,
   button,
-  textarea {
+  textarea,
+  select {
     font-size: 2rem;
   }
-  input {
+  input,
+  select {
     padding: 0;
     margin-bottom: 20px;
     border: none;

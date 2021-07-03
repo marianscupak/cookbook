@@ -24,8 +24,9 @@ export type Recipe = {
   ingredients: string[],
   steps: string[],
   images: string[],
+  timestamp: string,
   _id: string,
-  author?: string
+  author?: string,
 }
 
 export const defaultRecipe = {
@@ -34,5 +35,6 @@ export const defaultRecipe = {
   ingredients: [""],
   steps: [""],
   images: [""],
+  timestamp: "",
   _id: ""
 }
