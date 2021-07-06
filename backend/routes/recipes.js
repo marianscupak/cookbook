@@ -72,21 +72,6 @@ router.route('/').get((req, res) => {
         images.push(file);
       });
       recipe.images = images;
-
-      // const user = User.findById(recipe.userId, (err, doc) => {
-      //   if (err) {
-      //     return res.send({
-      //       success: false,
-      //       message: "Error: Server error."
-      //     });
-      //   }
-      //   if (doc) {
-      //     recipe.author = doc.username;
-      //   }
-      //   else {
-      //     recipe.author = "Anonymous";
-      //   }
-      // });
     });
 
     (async () => {
