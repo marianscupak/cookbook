@@ -10,10 +10,6 @@ const RecipeSlider = () => {
       .then((res) => res.json())
       .then((json) => {
         if (json.success) {
-          json.recipes.forEach((recipe: string, index: number) => {
-            json.recipes[index].images = json.images[index];
-          });
-
           setRecipes(json.recipes.slice(0, 8));
         }
       });

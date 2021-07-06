@@ -31,17 +31,12 @@ export const Profile = () => {
       .then((res) => res.json())
       .then((json) => {
         if (json.success) {
-          json.recipes.forEach((recipe: string, index: number) => {
-            json.recipes[index].images = json.images[index];
-          });
-
           setRecipes(json.recipes);
           setLoading(false);
         }
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
       });
   }, []);
 
