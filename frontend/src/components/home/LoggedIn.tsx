@@ -15,8 +15,8 @@ const LoggedIn = ({ username }: { username: string }) => {
           <h1>Look at your own recipes</h1>
         </Link>
         <Link to="/recipes" className="option">
-          <img src={BurgerIcon.toString()} alt="Others recipes" />
-          <h1>Look at others recipes</h1>
+          <img src={BurgerIcon.toString()} alt="Other's recipes" />
+          <h1>Look at other's recipes</h1>
         </Link>
         <Link to="/recipes/add" className="option">
           <img src={TrayIcon.toString()} alt="Add recipe" />

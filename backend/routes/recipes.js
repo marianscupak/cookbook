@@ -24,18 +24,21 @@ router.route('/').post((req, res) => {
                   message: "Error: Server error."
               });
             }
-            const images = []
-            for (index in recipes) {
-              images.push([]);
-              const recipe = recipes[index];
-              fs.readdirSync(`public/${recipe.id}`).forEach(file => {
-                images[index].push(file);
+            const recipeObjects = [];
+            recipes.forEach((recipe) => {
+              recipeObjects.push(recipe.toObject());
+            });
+            
+            recipeObjects.forEach((recipe) => {
+              const images = [];
+              fs.readdirSync(`public/${recipe._id}`).forEach(file => {
+                images.push(file);
               });
-            }
+              recipe.images = images;
+            });
             return res.send({
               success: true,
-              recipes,
-              images
+              recipes: recipeObjects
             });
           })
         }
@@ -58,19 +61,42 @@ router.route('/').get((req, res) => {
         message: "Error: Server error."
       });
     }
-    const images = [];
-    for (index in recipes) {
-      images.push([]);
-      const recipe = recipes[index];
-      fs.readdirSync(`public/${recipe.id}`).forEach(file => {
-        images[index].push(file);
-      });
-    }
-    return res.send({
-      success: true,
-      recipes,
-      images
+    const recipeObjects = [];
+    recipes.forEach((recipe) => {
+      recipeObjects.push(recipe.toObject());
     });
+    
+    recipeObjects.forEach((recipe) => {
+      const images = [];
+      fs.readdirSync(`public/${recipe._id}`).forEach(file => {
+        images.push(file);
+      });
+      recipe.images = images;
+    });
+
+    (async () => {
+      try {
+        const users = await Promise.all(recipeObjects.map(recipe => User.findById(recipe.userId)));
+        users.forEach((user, index) => {
+          if (user) {
+            recipeObjects[index].author = user.username;
+          }
+          else {
+            recipeObjects[index].author = "Anonymous";
+          }
+        });
+        return res.send({
+          success: true,
+          recipes: recipeObjects
+        });
+      }
+      catch(err) {
+        return res.send({
+          success: false,
+          message: "Error: Server error."
+        })
+      }
+    })();
   })
 })
 
