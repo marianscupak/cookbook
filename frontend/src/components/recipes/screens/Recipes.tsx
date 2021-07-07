@@ -16,7 +16,7 @@ export const Recipes = () => {
       .then((res) => res.json())
       .then((json) => {
         if (json.success) {
-          setRecipes(json.recipes);
+          setRecipes(json.recipes.reverse());
         }
       });
   }, []);
@@ -31,13 +31,13 @@ export const Recipes = () => {
       if (e.target.value.includes("Asc")) {
         func = (a: Recipe, b: Recipe) => {
           return (
-            new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()
+            new Date(b.timestamp).valueOf() - new Date(a.timestamp).valueOf()
           );
         };
       } else {
         func = (a: Recipe, b: Recipe) => {
           return (
-            new Date(b.timestamp).valueOf() - new Date(a.timestamp).valueOf()
+            new Date(a.timestamp).valueOf() - new Date(b.timestamp).valueOf()
           );
         };
       }

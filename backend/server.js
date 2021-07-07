@@ -23,8 +23,10 @@ mongoose.connect(uri, { useNewUrlParser: true, useCreateIndex: true, useUnifiedT
 
 const authenticationRouter = require('./routes/authentication');
 const recipesRouter = require('./routes/recipes');
+const starsRouter = require('./routes/stars');
 
 app.use('/api', authenticationRouter);
 app.use('/api/recipes', recipesRouter);
+app.use('/api/stars', starsRouter);
 
 app.listen(port);
