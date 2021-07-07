@@ -59,6 +59,22 @@ export const verify = (data: {
   }
 }
 
+export const startVerification = () => {
+  return (dispatch: AppDispatch) => {
+    dispatch({
+      type: AUTH.LOGIN_REQUESTED
+    });
+  }
+}
+
+export const terminateVerification = () => {
+  return (dispatch: AppDispatch) => {
+    dispatch({
+      type: AUTH.LOGIN_FAILED
+    });
+  }
+}
+
 export const logout = () => {
   return (dispatch: AppDispatch) => {
     dispatch({

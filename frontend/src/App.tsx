@@ -15,12 +15,14 @@ const App = () => {
 
   const dispatch = useAppDispatch();
 
-  const { verify } = bindActionCreators(actionCreators, dispatch);
+  const { verify, startVerification, terminateVerification } =
+    bindActionCreators(actionCreators, dispatch);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
 
     if (token) {
+      startVerification();
       fetch("http://localhost:5000/api/verify?token=" + token)
         .then((res) => res.json())
         .then((json) => {
@@ -33,6 +35,7 @@ const App = () => {
               token,
             });
           } else {
+            terminateVerification();
             localStorage.removeItem("token");
           }
         });

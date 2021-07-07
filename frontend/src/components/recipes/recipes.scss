@@ -116,6 +116,26 @@ $recipe-miniature-height: 200px;
       transform: scale(1.1);
     }
   }
+  .stars {
+    float: right;
+    margin-left: 10px;
+    .star-button {
+      width: auto;
+      padding: 10px;
+      font-size: 0;
+      border-radius: 50%;
+      &:hover,
+      &.starred {
+        background-color: yellow;
+      }
+      &.starred:hover {
+        background-color: $darkBlue;
+      }
+      img {
+        height: 30px;
+      }
+    }
+  }
 }
 
 $animationSpeed: 40s;
