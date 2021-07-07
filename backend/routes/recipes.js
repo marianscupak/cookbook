@@ -2,7 +2,7 @@ const router = require('express').Router();
 const fetch = require('node-fetch');
 const Recipe = require('../models/Recipe');
 const User = require('../models/User');
-const fs = require('fs');
+const findImages = require('../utils').findImages;
 
 router.route('/').post((req, res) => {
   const { body } = req;
@@ -30,10 +30,7 @@ router.route('/').post((req, res) => {
             });
             
             recipeObjects.forEach((recipe) => {
-              const images = [];
-              fs.readdirSync(`public/${recipe._id}`).forEach(file => {
-                images.push(file);
-              });
+              const images = findImages(recipe._id);
               recipe.images = images;
             });
             return res.send({
@@ -67,10 +64,7 @@ router.route('/').get((req, res) => {
     });
     
     recipeObjects.forEach((recipe) => {
-      const images = [];
-      fs.readdirSync(`public/${recipe._id}`).forEach(file => {
-        images.push(file);
-      });
+      const images = findImages(recipe._id);
       recipe.images = images;
     });
 
@@ -170,10 +164,9 @@ router.route('/:id').get((req, res) => {
         message: "Error: Server error."
       });
     }
-    const images = [];
-    fs.readdirSync(`public/${recipe.id}`).forEach(file => {
-      images.push(file);
-    });
+    
+    const images = findImages(recipe.id);
+
     User.findById(recipe.userId, (err, user) => {
       if (err) {
         return res.send({

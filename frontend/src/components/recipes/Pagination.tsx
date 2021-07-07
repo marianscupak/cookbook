@@ -18,22 +18,21 @@ const Pagination = ({
   return (
     <nav className="pagination">
       <ul>
-        <li key="previous" onClick={() => paginate(-1, pageCount)}>
-          <a href="#">{"<"}</a>
+        <li key="previous">
+          <button onClick={() => paginate(-1, pageCount)}>{"<"}</button>
         </li>
         {pageNumbers.map((num) => (
           <li key={num}>
-            <a
-              href="#"
+            <button
               onClick={() => paginate(num, pageCount)}
               className={num === currentPage ? "active" : ""}
             >
               {num}
-            </a>
+            </button>
           </li>
         ))}
-        <li key="next" onClick={() => paginate(0, pageCount)}>
-          <a href="#">{">"}</a>
+        <li key="next">
+          <button onClick={() => paginate(0, pageCount)}>{">"}</button>
         </li>
       </ul>
     </nav>
