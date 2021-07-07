@@ -1,40 +1,38 @@
 import React from "react";
 
 const Pagination = ({
-  recipesPerPage,
-  totalRecipes,
+  pageCount,
   currentPage,
   paginate,
 }: {
-  recipesPerPage: number;
-  totalRecipes: number;
+  pageCount: number;
   currentPage: number;
-  paginate: (pageNumber: number) => void;
+  paginate: (pageNumber: number, pageCount: number) => void;
 }) => {
   const pageNumbers = [];
 
-  for (let i = 1; i <= Math.ceil(totalRecipes / recipesPerPage); i++) {
+  for (let i = 1; i <= pageCount; i++) {
     pageNumbers.push(i);
   }
 
   return (
     <nav className="pagination">
       <ul>
-        <li key="previous" onClick={() => paginate(-1)}>
+        <li key="previous" onClick={() => paginate(-1, pageCount)}>
           <a href="#">{"<"}</a>
         </li>
         {pageNumbers.map((num) => (
           <li key={num}>
             <a
               href="#"
-              onClick={() => paginate(num)}
+              onClick={() => paginate(num, pageCount)}
               className={num === currentPage ? "active" : ""}
             >
               {num}
             </a>
           </li>
         ))}
-        <li key="next" onClick={() => paginate(0)}>
+        <li key="next" onClick={() => paginate(0, pageCount)}>
           <a href="#">{">"}</a>
         </li>
       </ul>

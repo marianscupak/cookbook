@@ -166,13 +166,6 @@ $animationSpeed: 40s;
   }
 }
 
-.profile-recipes {
-  display: flex;
-  li {
-    margin: 30px;
-  }
-}
-
 .recipes-all {
   display: flex;
   flex-direction: row;
@@ -188,13 +181,14 @@ $animationSpeed: 40s;
   }
   .recipe-display {
     width: 100%;
-    .recipes {
-      display: flex;
-      flex-wrap: wrap;
-      .recipe-miniature {
-        flex-basis: 20%;
-      }
-    }
+  }
+}
+
+.recipes {
+  display: flex;
+  flex-wrap: wrap;
+  .recipe-miniature {
+    flex-basis: 20%;
   }
 }
 

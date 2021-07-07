@@ -4,14 +4,21 @@ import { Link, useHistory } from "react-router-dom";
 import { useAppSelector } from "../../../state/hooks";
 import RecipeMini from "../../recipes/RecipeMini";
 import AddIcon from "../../../../public/add.svg";
+import RecipesDisplay from "../../recipes/RecipesDisplay";
+import { usePaginate } from "../../recipes/paginationAndFiltering";
+import { Recipe } from "../../../state/types";
 
 export const Profile = () => {
   const auth = useAppSelector((state) => state.auth);
 
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const { currentPage, paginate } = usePaginate();
+
   const history = useHistory();
+
+  const recipesPerPage = 4;
 
   if (auth.data.token === "") {
     history.push("/");
@@ -40,6 +47,13 @@ export const Profile = () => {
       });
   }, []);
 
+  const pageCount = Math.ceil(recipes.length / recipesPerPage);
+
+  const lastIndex = currentPage * recipesPerPage;
+  const firstIndex = lastIndex - recipesPerPage;
+
+  const paginatedRecipes = recipes.slice(firstIndex, lastIndex);
+
   return (
     <div className="container">
       <h1>{auth.data.user.username}</h1>
@@ -52,23 +66,12 @@ export const Profile = () => {
           <img src={AddIcon.toString()} alt="Add recipe" height="20px" />
         </Link>
       </div>
-      <ul className="profile-recipes">
-        {loading ? (
-          <h1>"Loading..."</h1>
-        ) : recipes.length ? (
-          recipes.map((val, index) => {
-            return (
-              <li key={index}>
-                <RecipeMini recipe={val} key={index} />
-              </li>
-            );
-          })
-        ) : (
-          <li>
-            <h1>You have no recipes.</h1>
-          </li>
-        )}
-      </ul>
+      <RecipesDisplay
+        recipes={paginatedRecipes}
+        pageCount={pageCount}
+        currentPage={currentPage}
+        paginate={paginate}
+      />
     </div>
   );
 };
