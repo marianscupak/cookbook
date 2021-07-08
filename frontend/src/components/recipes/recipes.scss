@@ -28,6 +28,8 @@ $recipe-miniature-height: 200px;
     position: absolute;
     z-index: 3;
     left: 5px;
+    max-height: 30px;
+    overflow: hidden;
   }
   img {
     object-fit: cover;
@@ -129,7 +131,7 @@ $recipe-miniature-height: 200px;
         background-color: yellow;
       }
       &.starred:hover {
-        background-color: $darkBlue;
+        background-color: $blue;
       }
       img {
         height: 30px;

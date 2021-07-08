@@ -2,6 +2,7 @@ const router = require('express').Router();
 const fetch = require('node-fetch');
 const Recipe = require('../models/Recipe');
 const User = require('../models/User');
+const Star = require('../models/Star');
 const findImages = require('../utils').findImages;
 
 router.route('/').post((req, res) => {
@@ -153,6 +154,48 @@ router.route('/add').post((req, res) => {
       });
     }
 });
+
+router.route('/popular').get((req, res) => {
+  Star.aggregate([
+    { $group : { _id: "$recipe", count: {$sum: 1} } },
+    { $sort: { count: -1 } },
+    { $limit: 8 }
+  ])
+  .then((recipes, err) => {
+    if (err) {
+      return res.send({
+        success: false,
+        message: "Error: Server error."
+      });
+    }
+    else {
+      Recipe.find({
+        _id: { $in : recipes.map(recipe => recipe._id)}
+      }, (err, recipes) => {
+        if (err) {
+          return res.send({
+            success: false,
+            message: "Error: Server error."
+          });
+        }
+        const recipeObjects = [];
+        recipes.forEach((recipe) => {
+          recipeObjects.push(recipe.toObject());
+        });
+
+        recipeObjects.forEach((recipe) => {
+          const images = findImages(recipe._id);
+          recipe.images = images;
+        })
+
+        return res.send({
+          success: true,
+          recipes: recipeObjects
+        });
+      })
+    }
+  });
+})
 
 router.route('/:id').get((req, res) => {
   const { id } = req.params;

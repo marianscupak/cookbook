@@ -19,10 +19,6 @@ const recipeSchema = new Schema({
       type: [String],
       default: []
     },
-    stars: {
-      type: Number,
-      default: 0
-    },
     userId: {
       type: String,
       default: ''
