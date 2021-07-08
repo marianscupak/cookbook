@@ -12,9 +12,10 @@ export const Profile = () => {
   const auth = useAppSelector((state) => state.auth);
 
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [stRecipes, setStRecipes] = useState<Recipe[]>([]);
 
   const { currentPage, paginate } = usePaginate();
+  const { currentPage: stCurrentPage, paginate: stPaginate } = usePaginate();
 
   const history = useHistory();
 
@@ -25,7 +26,6 @@ export const Profile = () => {
   }
 
   useEffect(() => {
-    setLoading(true);
     fetch("http://localhost:5000/api/recipes", {
       method: "POST",
       headers: {
@@ -39,11 +39,23 @@ export const Profile = () => {
       .then((json) => {
         if (json.success) {
           setRecipes(json.recipes);
-          setLoading(false);
         }
-      })
-      .catch((err) => {
-        setLoading(false);
+      });
+
+    fetch("http://localhost:5000/api/stars/recipes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        token: auth.data.token,
+      }),
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        if (json.success) {
+          setStRecipes(json.recipes);
+        }
       });
   }, []);
 
@@ -53,6 +65,13 @@ export const Profile = () => {
   const firstIndex = lastIndex - recipesPerPage;
 
   const paginatedRecipes = recipes.slice(firstIndex, lastIndex);
+
+  const stPageCount = Math.ceil(stRecipes.length / recipesPerPage);
+
+  const stLastIndex = stCurrentPage * recipesPerPage;
+  const stFirstIndex = stLastIndex - recipesPerPage;
+
+  const stPaginatedRecipes = stRecipes.slice(stFirstIndex, stLastIndex);
 
   return (
     <div className="container">
@@ -71,6 +90,13 @@ export const Profile = () => {
         pageCount={pageCount}
         currentPage={currentPage}
         paginate={paginate}
+      />
+      <h1>Recipes you starred</h1>
+      <RecipesDisplay
+        recipes={stPaginatedRecipes}
+        pageCount={stPageCount}
+        currentPage={stCurrentPage}
+        paginate={stPaginate}
       />
     </div>
   );
