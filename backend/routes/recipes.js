@@ -226,6 +226,26 @@ router.route('/:id').get((req, res) => {
     })
     
   })
-})
+});
+
+router.route('/stars').post((req, res) => {
+  const { body } = req;
+  const { recipeId } = body;
+
+  Star.countDocuments({
+    recipe: recipeId
+  }, (err, count) => {
+    if (err) {
+      return res.send({
+        success: false,
+        message: "Error: Server error."
+      });
+    }
+    return res.send({
+      success: true,
+      count
+    });
+  })
+});
 
 module.exports = router;
